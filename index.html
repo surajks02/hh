@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Chatbot ROI Calculator</title>
+<meta name="description" content="Voiceoc Chatbot ROI Calculator" />
+<meta name="author" content="voiceoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+<!-- <link rel="shortcut icon" href="https://www.keyreply.com/hubfs/apple-touch-icon-180x180.png" /> -->
+<link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="index.css?v=1.0" />
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+<v-app>
+<v-main>
+<v-container>
+<v-row no-gutters>
+<v-col cols="12" class="px-10 py-15">
+<p class="text-h5 text-center font-weight-bold futura" style="color: rgb(0, 140, 255);">
+  Automated ROI calculator
+</p>
+
+<!-- <p class="text-h3 mb-10 text-center font-weight-light futura">
+Scaling your customer engagement program is much easier than you think with Voiceoc
+</p> -->
+<v-card class="text-center ">
+  <v-card-title class="text-h4 futura ">Scaling your customer engagement program is much  <br> easier than you think with Voiceoc</v-card-title>
+</v-card>
+</v-col>
+</v-row>
+</v-container>
+<v-container fluid class="pa-0 ">
+<v-row no-gutters>
+<v-col cols="12" sm="5" class="pa-10">
+<v-card elevation="7 " class="mb-10">
+    <v-card>
+  <v-card-title class="text-h5 futura blue white--text">Let’s get started</v-card-title>
+</v-card>
+<!--<v-card-title class="text-h4 futura">Let’s get started</v-card-title>-->
+<v-card-text class="futura">
+Tell us more about your business by entering the following details about:
+<br>
+Your current current annual chat volume,
+contact centre team and,
+your growth prediction
+<br>
+You can either use the sliders or enter the desired value in the boxes below.
+<br>
+<v-divider></v-divider>
+<br>
+<p class="text-h4 futura">Inputs</p>
+
+<kr-slider :max="31" :min="1" :default="12" label="Number of Working Days in A Month" tag-append=" days" hint="No of working days cant be zero" @change="ChatLengthavg = $event"></kr-slider>
+
+<!-- <kr-slider :max="10" :min="1" :default="3" label="Number of Monthly Support Calls" tag-append=" chats" hint="The number of chats an agent can handle simultaneously. The average is typically 3 to 5, but this depends on industry and agent experience." @change="NoofActivechat = $event"></kr-slider> -->
+
+<!-- <kr-hours-counter label="Number of Monthly Support Calls" hint="What are the operating hours of your live chat service?" @change="NoofActivechat = $event"></kr-hours-counter> -->
+<vc-sc label="Number of Monthly Support Calls" hint="Monthly support calls" @change="NoofActivechat = $event"></vc-sc>
+<vc-schats label="Number of Monthly Support Chats" hint="Monthly support chats" @change="NoofActivechat = $event"></vc-schats>
+<vc-scnacalls label="Monthly Not Attended Calls" hint="Monthly not attended calls" @change="NoofActivechat = $event"></vc-scnacalls>
+
+<!-- <kr-slider :max="100" :min="0" :default="20" label="Predicted chat volume growth" tag-append="%" hint="Your anticipated percentage increase in chat volume." description="Use this slider to indicate future changes. This can range from increased customer queries, or if you wish to filter chats via a chatbot first, or use chatbots during after office hours." @change="ChatGrowthexp = $event"></kr-slider> -->
+<kr-slider :max="100" :min="1" :default="15" label="Number Of Customer Care Agents" tag-append=" agents" hint="Your anticipated percentage increase in chat volume." description="" @change="ChatGrowthexp = $event"></kr-slider>
+<vc-slider :max="8500" :min="500" :default="3000" label="monthly salary agents" tag-append=" agents" hint="Your anticipated percentage increase in chat volume." description="" @change="ChatGrowthexp = $event"></vc-slider>
+
+<!-- <vc-salary :max="8500" :min="500" :step="100" :default="3000" tag-append="     " hint label="Monthly Salary Of One Agent" @change="Automationrate = $event"></vc-salary> -->
+
+<kr-slider :max="30" :min="1" :default="12" label="Average Call Length (in mins)" tag-append=" Mins" hint="If you’re already using live chat, this is your average chat length in minutes. If you’re not sure what that is, we suggest these numbers based on our 2019 Benchmark Report:
+                                 " @change="ChatLengthavg = $event"></kr-slider>
+<vc-location label="Number of Location" hint="What are the operating hours of your live chat service?" @change="NoofActivechat = $event"></vc-location>
+<!-- <v-divider></v-divider>
+<br>
+ <p class="text-h4 futura">Contact Centre Team</p> 
+
+<kr-slider :max="100" :min="0" :default="25" label="Number of live chat agents" hint="How many human agents are there on your live chat team?" @change="LivechatNo = $event"></kr-slider>
+
+<kr-hours-counter label="Live chat availability" hint="What are the operating hours of your live chat service?" @change="AvailableliveChat = $event"></kr-hours-counter>
+
+<kr-slider :max="100000" :min="10000" :step="100" :default="40000" tag-append="/year" tag-prepend="$" hint="Salary plus related benefits and expenses (e.g. training, vacation pay, etc.) in US dollars" label="Average compensation per agent" @change="CompensationAvg = $event"></kr-slider>
+<v-divider></v-divider>
+<br/>
+<p class="text-h4 futura">Chatbot Automation Rate</p>
+<kr-slider :max="100" :min="10" :step="5" :default="75" tag-append="% automation" hint label="% of chats can be fully handled by chatbot" @change="Automationrate = $event"></kr-slider> -->
+
+</v-card-text>
+</v-card>
+</v-col>
+<v-col cols="12" sm="7" class="pa-10">
+<v-card id="roi-report" elevation="7" class="mb-10">
+<!-- <v-card-title class="text-h4 futura">Here are your results</v-card-title> -->
+<v-card>
+  <v-card-title class="text-h5 futura blue white--text">Here are your results</v-card-title>
+</v-card>
+<v-card-text>
+<p class="futura">
+Based on the data you have entered, this is the predicted impact and ROI your business is capable of achieving with AI-powered chatbots:
+</p>
+<kr-label label="Your team's annual chat capacity:" hint="Your current and anticipated annual chat capacity across your entire team."></kr-label>
+<v-row align="center" justify="space-around">
+<div class="text-center pa-5 futura">
+<p class="text-body-2 mb-1 font-weight-100">Current</p>
+<p class="text-h4 blue--text text--darken-4 font-weight-medium">
+{{ Chatlimit.current | format }} chats
+</p>
+</div>
+<div class="text-center pa-5">
+<p class="text-body-2 mb-1 font-weight-100">Future</p>
+<p class="text-h4 blue--text text--darken-4 font-weight-medium">
+{{ Chatlimit.future | format }} chats
+</p>
+</div>
+</v-row>
+</v-card-text>
+<v-divider class="mx-7 my-5"></v-divider>
+<v-card-text>
+<kr-label label="To meet this new demand, you will need:" hint="Number of extra agents needed to handle your anticipated chat volume."></kr-label>
+<v-row align="center" justify="space-around">
+<div class="text-center pa-5">
+<v-row no-gutters align="center" class="mb-3">
+<v-icon class="blue--text text--darken-4 mr-4" x-large>
+fa-user-plus
+</v-icon>
+<p class="text-h2 blue--text text--darken-4 mb-0 font-weight-medium">
+{{ AgentforFuture.addition }}
+</p>
+</v-row>
+<small class="text-body-1 futura">new agents,<br/>for a total of {{ AgentforFuture.total
+}}.</small
+                                       >
+</div>
+<p class="text-body-2 mb-1 font-weight-100 futura">OR</p>
+<div class="text-center pa-5">
+<v-row no-gutters align="center" class="mb-3">
+<v-icon class="blue--text text--darken-4 mr-4" x-large>
+fa-crown
+</v-icon>
+<p class="blue--text text--darken-4 text-h2 mb-0 font-weight-medium">
+1
+</p>
+</v-row>
+<small class="text-body-1 futura">Voiceoc chatbot,<br/>with unlimited
+capacity.</small
+                                       >
+</div>
+</v-row>
+</v-card-text>
+<v-divider class="mx-7 my-5"></v-divider>
+<v-card-text>
+<kr-label label="Your total estimated costs are:"></kr-label>
+<v-row>
+<v-col class="d-flex align-center">
+<v-icon color="cyan lighten-1">fa-stop</v-icon>
+<p class="mb-0 ml-1 text-body-2">Labor cost</p>
+</v-col>
+<v-col class="d-flex align-center">
+<v-icon color="amber lighten-1">fa-stop</v-icon>
+<p class="mb-0 ml-1 text-body-2 futura">
+Livechat cost
+</p>
+</v-col
+                                    >
+<v-col class="d-flex align-center">
+<v-icon color="blue darken-1">fa-stop</v-icon>
+<p class="mb-0 ml-1 text-body-2 futura">
+Chatbot cost
+</p>
+</v-col
+                                    >
+<v-col class="d-flex align-center">
+<v-icon color="green lighten-1">fa-stop</v-icon>
+<p class="mb-0 ml-1 text-body-2 futura">
+Savings
+</p>
+</v-col
+                                    >
+</v-row>
+<v-row no-gutters>
+<v-col cols="6">
+<kr-chart ref="chart-without-bot" id="chart-without-bot" :data="cost.withoutBot"></kr-chart>
+<p class="text-body-1 mb-1 font-weight-100 px-5 text-center futura">
+Predicted cost with {{ AgentforFuture.addition }} new agents
+</p>
+<p class="text-h4 blue--text text--darken-4 font-weight-medium text-center futura">
+{{ cost.withoutBot.total | format('$ ') }}
+</p>
+</v-col>
+<v-col cols="6">
+<kr-chart ref="chart-with-bot" id="chart-with-bot" :data="cost.withBot"></kr-chart>
+<p class="text-body-1 mb-1 font-weight-100 px-5 text-center futura">
+Predicted cost with chatbot
+</p>
+<p class="text-h4 blue--text text--darken-4 font-weight-medium text-center futura">
+{{ cost.withBot.total | format('$ ') }}
+</p>
+</v-col>
+</v-row>
+</v-card-text>
+<v-divider class="mx-7 my-5"></v-divider>
+<v-card-text>
+<p class="text-body-1 mb-4 font-weight-100 px-5 text-center futura">
+Adding Voiceoc AI-powered chatbot as a<br/>
+customer engagement channel will generate savings of
+</p>
+<p class="text-h4 green--text text--darken-2 font-weight-medium text-center futura">
+{{ (cost.withoutBot.total - cost.withBot.total) |
+format('$ ') }}
+({{ Math.floor((cost.withoutBot.total - cost.withBot.total) / cost.withoutBot.total * 100) }}%)
+</p>
+<p class="text-body-2 mb-4 px-5">
+<span class="text-h5 futura">Other benefits:</span>
+<ol class="futura">
+<li>Productivity gains</li>
+<li>Customer satisfaction improvements</li>
+<li>Service level improvements</li>
+<li>24/7 support availability for customers and stakeholders</li>
+<li>Process efficiency and employee productivity gains</li>
+<li>Up-skill employees to work on high value added complex work</li>
+<li>Higher employee satisfaction and retention</li>
+<li>Real time data analytics on what customers are asking about for strategic reporting and decision making</li>
+</ol>
+</p>
+</v-card-text>
+<v-divider class="mx-7 my-5"></v-divider>
+<v-card-text>
+<v-row>
+<v-col class="text-center">
+<img class="mb-5" style="max-width: 140px" src="img1.jpg" />
+<kr-label label="ROI in one year" hint="Savings less chatbot cost, divided by chatbot cost."></kr-label>
+<p class="text-h4 green--text text--darken-2 font-weight-medium text-center futura">
+{{ cost.roiInOneYear | format }}%
+</p>
+</v-col>
+<v-divider vertical class="mx-4"></v-divider>
+<v-col class="text-center">
+<img style="max-width: 140px" class="mb-5" src="img1.jpg" />
+<kr-label label="Payback period" hint="Total operating cost divided by savings, multiplied by 12."></kr-label>
+<p class="text-h4 green--text text--darken-2 font-weight-medium text-center futura">
+{{ cost.paybackPeriod | format }} month(s)
+</p>
+</v-col>
+</v-row>
+</v-card-text>
+<br/>
+<v-btn class="futura white--text blue" href="mailto:abc@voiceoc.com" block>
+  Enquire Now!
+</v-btn>
+</v-card>
+</v-col>
+</v-row>
+</v-container>
+</v-main>
+</v-app>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
