@@ -1,0 +1,52 @@
+[v-cloak]{display:none}img{max-width:100%}.range-slider{width:100%;display:flex;align-items:center}.range-slider input{flex-grow:1;margin-right:15px}.range-slider__range::-webkit-slider-thumb{appearance:none;width:20px;height:20px;border-radius:50%;background:#1d57d8;cursor:pointer;transition:background .15s ease-in-out}.range-slider__range::-webkit-slider-thumb :hover{background:#37cfff}.range-slider__range:active::-webkit-slider-thumb{background:#37cfff}.range-slider__range::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#1d57d8;cursor:pointer;transition:background .15s ease-in-out}.range-slider__range::-moz-range-thumb:hover{background:#37cfff}.range-slider__range:active::-moz-range-thumb{background:#37cfff}.range-slider__range::-webkit-slider-thumb{box-shadow:0 0 0 3px #fff,0 0 0 6px #37cfff}.range-slider__range{-webkit-appearance:none;height:10px;border-radius:5px;background:#d7dcdf;outline:none;padding:0;margin:0}.range-slider__value:after{position:absolute;top:8px;left:-7px;width:0;height:0;border-top:7px solid transparent;border-right:7px solid #1d57d8;border-bottom:7px solid transparent;content:""}.range-slider__value{display:inline-block;position:relative;width:60px;color:#fff;line-height:20px;text-align:center;border-radius:3px;background:#1d57d8;padding:5px;margin-left:8px}::-moz-range-track{background:#1d57d8;border:0}input::-moz-focus-inner,input::-moz-focus-outer{border:0}@font-face{font-family:futura pt bold;src:url(https://f.hubspotusercontent30.net/hubfs/4034633/KeyReply%20v2/Fonts/FuturaPTBold.eot) format('eot'),url(https://f.hubspotusercontent30.net/hubfs/4034633/KeyReply%20v2/Fonts/FuturaPTBold.woff) format('woff'),url(https://f.hubspotusercontent30.net/hubfs/4034633/KeyReply%20v2/Fonts/FuturaPTBold.ttf) format('truetype')}@font-face{font-family:futura pt book;src:url(https://f.hubspotusercontent30.net/hubfs/4034633/KeyReply%20v2/Fonts/FuturaPTBook.eot) format('eot'),url(https://f.hubspotusercontent30.net/hubfs/4034633/KeyReply%20v2/Fonts/FuturaPTBook.woff) format('woff'),url(https://f.hubspotusercontent30.net/hubfs/4034633/KeyReply%20v2/Fonts/FuturaPTBook.ttf) format('truetype')}.futura,.v-application .text-h3.futura,.v-application .text-h4.futura{font-family:futura pt book!important}
+
+.range-slider {
+    display: flex;
+    
+}
+
+.decrement-btn{
+    background-color: transparent;
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+        font-weight: bold;
+        color: black;
+        margin-bottom: 5px;
+        margin-right: 0.5rem;
+        cursor: pointer;
+        border: none;
+        /* Remove border */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+.increment-btn {
+    background-color: transparent;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    color: rgb(255, 0, 0);
+
+    margin-right: 0.5rem;
+    cursor: pointer;
+    border: none;
+    /* Remove border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* Adjust styles for smaller screens */
+@media only screen and (max-width: 600px) {
+
+    .decrement-btn,
+    .increment-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+    }
+}
